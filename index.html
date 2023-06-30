@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Gift For My Love</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Caprasimo&family=Pacifico&display=swap" rel="stylesheet">
+        <link rel="favicon href=" https://love2dev.com/favicon.ico">
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+
+            html,
+            body {
+                height: 100%;
+
+                touch-action: none;
+            }
+
+            body {
+                background-image: url(background.jpg);
+                /* background-image:; */
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+                background-size: 100% 100%;
+                overflow: hidden;
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-perspective: 1000px;
+                perspective: 1000px;
+                -webkit-transform-style: preserve-3d;
+                transform-style: preserve-3d;
+            }
+
+            #drag-container,
+            #spin-container {
+                position: relative;
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                margin-top: 80px;
+                margin-left: 340px;
+                -webkit-transform-style: preserve-3d;
+                transform-style: preserve-3d;
+                -webkit-transform: rotateX(-10deg);
+                transform: rotateX(-10deg);
+            }
+
+            #drag-container img,
+            #drag-container video {
+                -webkit-transform-style: preserve-3d;
+                transform-style: preserve-3d;
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                line-height: 200px;
+                font-size: 50px;
+                text-align: center;
+                -webkit-box-shadow: 0 0 8px #fff;
+                box-shadow: 0 0 8px #fff;
+                -webkit-box-reflect: below 10px linear-gradient(transparent, transparent, #0005);
+            }
+
+            #drag-container img:hover,
+            #drag-container video:hover {
+                -webkit-box-shadow: 0 0 15px #fffd;
+                box-shadow: 0 0 15px #fffd;
+                -webkit-box-reflect: below 10px linear-gradient(transparent, transparent, #0007);
+            }
+
+            #ground {
+                width: 900px;
+                height: 900px;
+                position: absolute;
+                top: 100%;
+                left: 50%;
+                -webkit-transform: translate(-50%, -50%) rotateX(90deg);
+                transform: translate(-50%, -50%) rotateX(90deg);
+                background: -webkit-radial-gradient(center center, farthest-side, #9993, transparent);
+            }
+
+            .fullbody {
+                height: auto;
+                width: auto;
+                /* text-align: center; */
+            }
+
+            h1 {
+                position: relative;
+                top: 50px;
+                left: 640px;
+                display: none;
+
+            }
+
+            @-webkit-keyframes spin {
+                from {
+                    -webkit-transform: rotateY(0deg);
+                    transform: rotateY(0deg);
+                }
+
+                to {
+                    -webkit-transform: rotateY(360deg);
+                    transform: rotateY(360deg);
+                }
+            }
+
+            @keyframes spin {
+                from {
+                    -webkit-transform: rotateY(0deg);
+                    transform: rotateY(0deg);
+                }
+
+                to {
+                    -webkit-transform: rotateY(360deg);
+                    transform: rotateY(360deg);
+                }
+            }
+
+            @-webkit-keyframes spinRevert {
+                from {
+                    -webkit-transform: rotateY(360deg);
+                    transform: rotateY(360deg);
+                }
+
+                to {
+                    -webkit-transform: rotateY(0deg);
+                    transform: rotateY(0deg);
+                }
+            }
+
+            @keyframes spinRevert {
+                from {
+                    -webkit-transform: rotateY(360deg);
+                    transform: rotateY(360deg);
+                }
+
+                to {
+                    -webkit-transform: rotateY(0deg);
+                    transform: rotateY(0deg);
+                }
+            }
+
+            #startreset,
+            #Reload {
+                display: inline;
+                width: 200px;
+                height: 200px;
+                padding-top: 50px;
+                color: white;
+                background-image: url(button.png);
+                background-size: 200px 200px;
+                background-repeat: no-repeat;
+                cursor: pointer;
+                text-align: center;
+                position: absolute;
+                left: 670px;
+                top: 200px;
+
+                transition: all 0.2s;
+                -webkit-transition: all 0.2s;
+                -moz-transition: all 0.2s;
+                -o-transition: all 0.2s;
+                -ms-transition: all 0.2s;
+            }
+
+            #Reload {
+                display: none;
+            }
+
+            #myAudio {
+                display: none;
+            }
+
+            p {
+                font-size: 40px;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <audio id="myAudio" src="mylove.mp3"></audio>
+        <button onclick="playAudio()"></button>
+
+        <div class="fullbody">
+            <h1 style="color: red;font-family: 'Caprasimo', cursive;
+            /* font-family: 'Pacifico', cursive; */
+            " id="love">I <span>LOVE</span> MOUMITA💝💌</h1>
+            <div id="drag-container">
+                <div id="spin-container">
+                    <img src="first.jpg" alt="">
+                    <img src="second.jpg" alt="">
+                    <img src="third.jpg" alt="">
+                    <img src="fourth.jpg" alt="">
+                    <img src="fifth.jpg" alt="">
+                    <img src="sixth.jpg" alt="">
+                    <img src="seven.jpg" alt="">
+                </div>
+                <div id="ground"></div>
+            </div>
+
+
+
+            <div id="startreset">
+                <p>Start</p>
+            </div>
+            <div id="Reload">
+                <p>Reload</p>
+            </div>
+        </div>
+
+
+        <script>
+
+            var radius = 280;
+            var autoRotate = true;
+            var rotateSpeed = -60;
+            var imgWidth = 220;
+            var imgHeight = 270;
+            var playing = false;
+            var score;
+            var action;
+            var stop = true;
+            var timeremaining = 42;
+            var correctAnswer;
+            // while(true){
+            function stopCountdown() {
+                document.getElementById("drag-container").style.display = "none";
+                document.getElementById("Reload").style.display = "inline";
+                document.getElementById("love").style.display = "none";
+                clearInterval(action);
+                document.getElementById("Reload").onclick = function () {
+                    if (stop == true) {
+                        location.reload();
+                    }
+                }
+            }
+
+            document.getElementById("startreset").onclick = function () {
+                if (playing == true) {
+                    location.reload();
+                } else {
+                    const audio = document.getElementById('myAudio');
+                    audio.play();
+                    startCountdown();
+                    function startCountdown() {
+                        action = setInterval(function () {
+                            document.getElementById("love").style.display = "inline";
+                            document.getElementById("startreset").style.display = "none";
+                            setTimeout(init, 1000);
+                            var odrag = document.getElementById('drag-container');
+                            var ospin = document.getElementById('spin-container');
+                            var aImg = ospin.getElementsByTagName('img');
+                            var aVid = ospin.getElementsByTagName('video');
+                            var aEle = [...aImg, ...aVid];
+                            ospin.style.width = imgWidth + "px";
+                            ospin.style.height = imgHeight + "px";
+                            var ground = document.getElementById('ground');
+                            ground.style.width = radius * 3 + "px";
+                            ground.style.height = radius * 3 + "px";
+                            function init(delayTime) {
+                                for (var i = 0; i < aEle.length; i++) {
+                                    aEle[i].style.transform = "rotateY(" + (i * (360 / aEle.length)) + "deg) translateZ(" + radius + "px)";
+                                    aEle[i].style.transition = "transform 1s";
+                                    aEle[i].style.transitionDelay = delayTime || (aEle.length - i) / 4 + "s";
+                                }
+                            }
+                            function applyTranform(obj) {
+                                if (tY > 180) tY = 180;
+                                if (tY < 0) tY = 0;
+                                obj.style.transform = "rotateX(" + (-tY) + "deg) rotateY(" + (tX) + "deg)";
+                            }
+                            function playSpin(yes) {
+                                ospin.style.animationPlayState = (yes ? 'running' : 'paused');
+                            }
+                            var sX, sY, nX, nY, desX = 0,
+                                desY = 0,
+                                tX = 0,
+                                tY = 10;
+                            if (autoRotate) {
+                                var animationName = (rotateSpeed > 0 ? 'spin' : 'spinRevert');
+                                ospin.style.animation = `${animationName} ${Math.abs(rotateSpeed)}s infinite linear`;
+                            }
+
+                            document.onpointerdown = function (e) {
+                                clearInterval(odrag.timer);
+                                e = e || window.event;
+                                var sX = e.clientX,
+                                    sY = e.clientY;
+                                this.onpointermove = function (e) {
+                                    e = e || window.event;
+                                    var nX = e.clientX,
+                                        nY = e.clientY;
+                                    desX = nX - sX;
+                                    desY = nY - sY;
+                                    tX += desX * 0.1;
+                                    tY += desY * 0.1;
+                                    applyTranform(odrag);
+                                    sX = nX;
+                                    sY = nY;
+                                };
+                                this.onpointerup = function (e) {
+                                    odrag.timer = setInterval(function () {
+                                        desX *= 0.95;
+                                        desY *= 0.95;
+                                        tX += desX * 0.1;
+                                        tY += desY * 0.1;
+                                        applyTranform(odrag);
+                                        playSpin(false);
+                                        if (Math.abs(desX) < 0.5 && Math.abs(desY) < 0.5) {
+                                            clearInterval(odrag.timer);
+                                            playSpin(true);
+                                        }
+                                    }, 17);
+                                    this.onpointermove = this.onpointerup = null;
+                                };
+                                return false;
+                            };
+                            document.onmousewheel = function (e) {
+                                e = e || window.event;
+                                var d = e.wheelDelta / 20 || -e.detail;
+                                radius += d;
+                                init(1);
+                            };
+                            timeremaining -= 1;
+                            if (timeremaining == 0) {// game over
+                                stopCountdown();
+                            }
+                        }, 1000);
+                    }
+                }  //*********
+            } // /////////////////////////////////////
+        // }
+// -------------------------------------------------
+
+        </script>
+    </body>
